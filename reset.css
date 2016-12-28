@@ -117,14 +117,17 @@ img {
 /* FORM */
 form fieldset {
   border: 0 none;
+  width: 100%;
 }
 
 form legend {
   margin: 0 0 .5rem;
+  width: 100%;
 }
 
 form label {
   margin: 1rem 0 .3rem;
+  width: 100%;
 }
 
 form input,
@@ -136,6 +139,7 @@ form textarea {
   font-family: inherit;
   font-size: 1em;
   padding: 1.5rem;
+  width: 100%;
 }
 
 form textarea {
