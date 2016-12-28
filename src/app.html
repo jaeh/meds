@@ -1,0 +1,90 @@
+<div class='app'>
+  <Storage
+    state='{{ state }}'
+    development='{{ development }}'
+    on:updateState='updateState(event)'
+  />
+
+  <Header menu='{{ menu }}' route='{{ route }}' on:navigate='navigate(event)' />
+
+  <article class='page'>
+    {{#if route === '/meds'}}
+      <MedsPage
+        on:updateState='updateState(event)'
+        meds='{{ state.meds.list }}'
+        sortBy='{{ state.meds.sortBy }}'
+      />
+    {{else}}
+      <IndexPage />
+    {{/if}}
+  </article>
+
+  <Footer />
+</div>
+
+<script>
+  import Header from './components/header'
+  import Footer from './components/footer'
+
+  import IndexPage from './pages/home'
+  import MedsPage from './pages/meds'
+
+  import Storage from './state/storage'
+
+  import { merge } from './utils'
+
+  export default {
+    data:
+      () => ({
+        route: window.location.pathname || '/',
+        menu: [
+          { href: '/', text: 'home' },
+          { href: '/meds', text: 'meds' },
+        ],
+        development: process.env.NODE_ENV === 'development',
+        state: {
+          meds: {
+            list: [],
+            sortBy: 'name',
+          },
+        },
+      }),
+
+    methods: {
+      navigate({ href }) {
+        const { host, protocol } = window.location
+        const route = href.replace(`${ protocol }//${ host }`, '')
+
+        history.pushState(null, null, href )
+        this.set({ route })
+      },
+
+      updateState(obj) {
+        const state = merge(this.get('state'), obj)
+        this.set({ state })
+      },
+    },
+
+    components: {
+      Header,
+      Footer,
+      IndexPage,
+      MedsPage,
+      Storage,
+    },
+  }
+</script>
+
+<style>
+  .app {
+    display: flex;
+    flex-direction: column;
+    max-width: 1500px;
+    margin: 0 auto;
+    min-height: 100vh;
+    width: 90vw;
+  }
+  .page {
+    margin: 5rem 0 0 0;
+  }
+</style>

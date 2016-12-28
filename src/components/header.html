@@ -1,0 +1,96 @@
+<header class='header'>
+  <div class='logo{{ route === '/' ? " active" : "" }}'>
+    <svg viewBox='0 0 1024 1024'>
+      <path
+        d="M768 64c-141.385 0-256 83.75-256 186.875C512 374.75 544 445 512 640c0-288-177-405.783-256-405.783 3.266-32.17-30.955-42.217-30.955-42.217s-14 7.124-19.354 21.583c-17.231-20.053-36.154-17.54-36.154-17.54l-8.491 37.081S44.001 274 42.411 439.416C56 461 141.311 478.102 201.887 467.118c57.157 2.956 42.991 50.648 30.193 63.446C178.083 584.562 128 512 64 512s-64 64 0 64 64 64 192 64c-198 77 0 256 0 256h-64c-64 0-64 64-64 64h384c192 0 320-64 320-222.182 0-54.34-27.699-114.629-64-162.228-70.943-93.023 14.453-171.156 64-127.59s192 64 192-128c0-141.385-114.615-256-256-256zM160 384c-17.674 0-32-14.327-32-32 0-17.674 14.326-32 32-32 17.673 0 32 14.326 32 32 0 17.673-14.327 32-32 32z"
+      />
+    </svg>
+  </div>
+  <nav>
+    <ul class='list'>
+      {{#each menu as item}}
+        <li class='list__item{{ route === item.href ? " active" : "" }}'>
+          <Link
+            on:navigate='fire("navigate", event)'
+            href='{{ item.href }}'
+            text='{{ item.text }}'
+          />
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+  <span class='route__info'>Route: {{ route }}</span>
+</header>
+
+<script>
+  import Link from './link'
+
+  export default {
+    components: {
+      Link,
+    }
+  }
+</script>
+
+<style>
+  .header {
+    width: 90vw;
+    display: flex;
+    position: fixed;
+    background-color: #ffffff;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    border-style: solid;
+    border-color: rgb(255, 152, 0);
+    padding: 0 .5rem .5rem;
+  }
+
+  .list {
+    display: flex;
+    justify-content: space-between;
+  }
+  .list__item {
+    padding: .4rem .5rem 0 0;
+    border-width: 0px;
+    border-top-width: 2px;
+    border-style: solid;
+    border-color: rgb(255, 152, 0);
+    transition: border-color 500ms;
+  }
+
+  .list__item a {
+    padding: .5rem 0 0 0;
+    text-decoration: none;
+  }
+
+  .list__item.active {
+    border-top: 2px solid rgb(230, 81, 0);
+  }
+
+  .list__item.active a {
+    color: rgb(230, 81, 0);
+  }
+
+  .logo {
+    margin: .5rem .5rem 0 0;
+  }
+
+  .logo svg {
+    height: 2rem;
+    width: 2rem;
+    fill: rgb(255, 152, 0);
+  }
+  .logo.active svg {
+    fill: rgb(230, 81, 0);
+  }
+
+  .route__info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+</style>

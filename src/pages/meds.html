@@ -1,0 +1,58 @@
+<section>
+  <h1>Meds:</h1>
+
+  <button on:click='addMedToggle()'>Add Med</button>
+  {{#if addMedOn }}
+    <AddMedForm on:addMed='addMed(event)' />
+  {{/if}}
+
+  <Meds
+    meds='{{ meds }}'
+    med='{{ med }}'
+    on:addMed='addMed(event)'
+    on:removeMed='removeMed(event)'
+  />
+</section>
+
+<script>
+  import Meds from '../components/meds'
+  import AddMedForm from '../components/add-med-form'
+
+  export default {
+    data: () => ({
+      addMedOn: false,
+    }),
+
+    methods: {
+      addMedToggle() {
+        this.set({ addMedOn: !this.get('addMedOn') })
+      },
+
+      addMed({ med }) {
+        if (med) {
+          const meds = this.get('meds')
+          if (!meds.find(m => m.name === med.name)) {
+            meds.push(med)
+            this.fire('updateState', { meds: { list: meds } })
+          }
+        }
+      },
+
+      removeMed({ med }) {
+        const meds = this.get('meds')
+        const medIndex = meds.findIndex(m => m.name === med)
+
+        if (medIndex > -1) {
+          meds.splice(medIndex, 1)
+        }
+
+        this.fire('updateState', { meds: { list: meds } })
+      },
+    },
+
+    components: {
+      Meds,
+      AddMedForm,
+    },
+  }
+</script>

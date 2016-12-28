@@ -1,0 +1,26 @@
+<a
+  class='link'
+  on:click='navigate(event)'
+  href='{{ href }}'
+>
+  {{ text }}
+</a>
+
+<script>
+  export default {
+    methods: {
+      navigate(event) {
+        event.preventDefault()
+        // fire navigate in menu component
+        this.fire('navigate', { href: event.target.href })
+        return false
+      },
+    },
+  }
+</script>
+
+<style>
+  .link {
+    white-space: nowrap;
+  }
+</style>

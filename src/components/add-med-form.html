@@ -1,0 +1,69 @@
+<form class='form' on:submit='submit(event)'>
+  <fieldset>
+    <legend><h3>Add a new Med</h3></legend>
+
+    <label>Med Name:</label>
+    {{#if errors.name}}
+      <div class='error'>Name is required</div>
+    {{/if}}
+    <input ref:name type='text' placeholder='Name' />
+    <label>Med Dosage:</label>
+    <input ref:dosage type='number' placeholder='Dosage' /><span>mg</span>
+    <label>Pills taken each day:</label>
+    <input ref:daily type='number' placeholder='Pills per day' />
+    <label>Pills in storage:</label>
+    <input ref:store type='number' placeholder='Pills in Store' />
+
+    <input type='submit' value='Submit' />
+  </fieldset>
+</form>
+
+<script>
+  export default {
+    data:
+      () => ({
+        errors: {},
+      }),
+
+    methods: {
+      submit(event) {
+        event.preventDefault()
+
+        const { name, dosage, daily, store } = this.refs
+
+        const errors = this.get('errors')
+        errors.name = !name.value
+        this.set({ errors })
+
+        if (errors.name) {
+          return
+        }
+
+        // get med input value
+        const med = {
+          name: name.value,
+          dosage: dosage.value,
+          daily: daily.value,
+          store: store.value,
+        }
+
+        this.fire('addMed', { med })
+
+        return false
+      },
+    },
+  }
+</script>
+
+<style>
+  .form {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .form fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+</style>

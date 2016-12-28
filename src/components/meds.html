@@ -1,0 +1,79 @@
+<ul class='list'>
+  <lh>
+    <ul>
+      <li on:click='sort("name")'>Name:</li>
+      <li on:click='sort("dosage")'>Dosage:</li>
+      <li on:click='sort("daily")'>Per Day:</li>
+      <li on:click='sort("store")'>Store:</li>
+      <li>Delete:</li>
+    </ul>
+  </lh>
+  {{#each meds as med}}
+    <li class='list__item'>
+      <ul>
+        <li>{{ med.name }}</li>
+        <li>{{ med.dosage}}mg</li>
+        <li>{{ med.daily }}</li>
+        <li>{{ med.store }}</li>
+        <li>
+          <button class='delete' on:click='fire("removeMed", { med: med.name })'>
+            X
+          </button>
+        </li>
+      </ul>
+    </li>
+  {{/each}}
+</ul>
+
+<script>
+  const sortBy = localStorage.sortBy || 'name'
+
+  export default {
+    data:
+      () => ({
+        sortBy,
+      }),
+
+    methods: {
+      sort(property) {
+          console.log('sort', { property })
+          const sortBy = this.get('sortBy')
+          if (sortBy === 'prop') {
+            if (sortBy[0] === '-') {
+              property = property.substr(1)
+            } else {
+              property = '-' + property
+            }
+          }
+
+          this.set('sortBy', property)
+          localStorage.sortBy = property
+        }
+    }
+  }
+</script>
+
+<style>
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .list__item {
+    display: flex;
+  }
+
+  .list ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid
+  }
+  .list button {
+    padding: .5rem;
+  }
+
+  .delete {
+    background-color: rgb(255, 0, 0);
+  }
+</style>

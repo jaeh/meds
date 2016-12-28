@@ -1,0 +1,83 @@
+<div class='state'>
+  {{#if development }}
+    <button class='dev' on:click='visibilityToggle()'>dev</button>
+    {{#if visible}}
+      <div class='panel'>
+        <div>State</div>
+        <div>{{ JSON.stringify(state, null, ' ') }}</div>
+      </div>
+    {{/if}}
+  {{/if}}
+</div>
+
+<script>
+  const init =
+    (data) => {
+      try {
+        const { state } = window.localStorage
+
+        const storageState = JSON.parse(state)
+
+        const mergedState = Object.assign(
+          {},
+          data,
+          storageState,
+        )
+        return mergedState
+      }
+      catch(e) {
+        console.warn('error when importing state:', e)
+        return data
+      }
+    }
+
+  export default {
+    onrender() {
+      const state = this.get('state')
+      this.fire('updateState', init(state))
+      this.observe('state', (newVal, oldVal) => {
+        window.localStorage.state = JSON.stringify(newVal)
+      })
+    },
+    methods: {
+      visibilityToggle() {
+        this.set({ visible: !this.get('visible') })
+      }
+    }
+  }
+</script>
+
+<style>
+  .state {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+  }
+
+  .dev {
+    border-bottom-color: #ff9d1c;
+    border-left-color: #fff;
+    border-right-color: #ff9d1c;
+    border-style: solid;
+    border-top-color: #fff;
+    border-width: 40px;
+    bottom: 0;
+    height: 0;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    width: 0;
+    z-index: 2;
+  }
+
+  .panel {
+    bottom: 0;
+    height: 30vh;
+    right: 0;
+    overflow-y: scroll;
+    position: fixed;
+    white-space: pre-wrap;
+    width: 50vw;
+    border: 1px solid;
+  }
+</style>
