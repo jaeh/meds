@@ -1,5 +1,9 @@
 const webpack = require('webpack')
 
+const BabiliPlugin = require('babili-webpack-plugin')
+
+const CompressionPlugin = require('compression-webpack-plugin')
+
 const { readFileSync } = require('fs')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -17,6 +21,21 @@ const plugins = [
     'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
   }),
 ]
+
+if (isProd) {
+  plugins.push(
+    new BabiliPlugin({
+      comments: false,
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'zopfli',
+      test: /\.js$|\.html|\.css$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    })
+  )
+}
 
 module.exports = {
   entry: {
