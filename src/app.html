@@ -5,7 +5,12 @@
     on:updateState='updateState(event)'
   />
 
-  <Header menu='{{ menu }}' route='{{ route }}' on:navigate='navigate(event)' />
+  <Header
+    development='{{ development }}'
+    menu='{{ menu }}'
+    on:navigate='navigate(event)'
+    route='{{ route }}'
+  />
 
   <article class='page'>
     {{#if route === '/'}}

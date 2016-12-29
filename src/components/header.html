@@ -19,7 +19,9 @@
       {{/each}}
     </ul>
   </nav>
-  <span class='route__info'>Route: {{ route }}</span>
+  {{#if development}}
+    <span class='route__info'>Route: {{ route }}</span>
+  {{/if}}
 </header>
 
 <script>
