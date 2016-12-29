@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path')
 
 const BabiliPlugin = require('babili-webpack-plugin')
 
@@ -48,7 +49,7 @@ module.exports = {
     extensions: [ '.js', '.html' ],
   },
   output: {
-    path: process.cwd() + '/bundle',
+    path: path.join(process.cwd(), 'public', 'js'),
     filename: '[name].js',
     chunkFilename: '[name].[id].js',
   },

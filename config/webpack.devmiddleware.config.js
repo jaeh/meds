@@ -15,7 +15,7 @@ module.exports = {
   // },
   // watch options (only lazy: false)
 
-  publicPath: '/',
+  publicPath: '/js/',
   // public path to bind the middleware to
   // use the same as in webpack
 

@@ -10,8 +10,6 @@ const PUBLIC_DIR = path.join(cwd, 'public')
 const BUNDLE_DIR = path.join(cwd, 'bundle')
 const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html')
 
-app.use(express.static(PUBLIC_DIR))
-
 const env = app.get('env')
 
 if (env !== 'production') {
@@ -23,9 +21,8 @@ if (env !== 'production') {
   app.use(devMiddleware)
   app.use(hotMiddleware)
 }
-else {
-  app.use(express.static(BUNDLE_DIR))
-}
+
+app.use(express.static(PUBLIC_DIR))
 
 app.use('*', (req, res) => {
   res.sendFile(INDEX_FILE)
