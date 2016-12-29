@@ -13,13 +13,13 @@
   />
 
   <article class='page'>
-    {{#if route === '/'}}
+    {{#if route === '/meds/'}}
       <MedsPage
         on:updateState='updateState(event)'
         meds='{{ state.meds.list || {} }}'
         sortBy='{{ state.meds.sortBy || "name" }}'
       />
-    {{elseif route === '/about'}}
+    {{elseif route === '/meds/about/'}}
       <AboutPage />
     {{/if}}
   </article>
@@ -43,8 +43,8 @@
       () => ({
         route: window.location.pathname || '/',
         menu: [
-          { href: '/', text: 'meds' },
-          { href: '/about', text: 'about' },
+          { href: '/meds/', text: 'meds' },
+          { href: '/meds/about/', text: 'about' },
         ],
         development: process.env.NODE_ENV === 'development',
         state: {
