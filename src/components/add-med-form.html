@@ -1,31 +1,57 @@
-<form class='form' on:submit='submit(event)'>
-  <fieldset>
-    <legend><h3>Add a new Med</h3></legend>
+<button class='btn' on:click='addMedToggle()'>Add Med</button>
+{{#if addMedOn }}
+  <form class='form' on:submit='submit(event)'>
+    <fieldset>
+      <legend><h3>Add a new Med</h3></legend>
 
-    <label>Med Name:</label>
-    {{#if errors.name}}
-      <div class='error'>Name is required</div>
-    {{/if}}
-    <input ref:name type='text' placeholder='Name' />
-    <label>Med Dosage:</label>
-    <input ref:dosage type='number' placeholder='Dosage' /><span>mg</span>
-    <label>Pills taken each day:</label>
-    <input ref:daily type='number' placeholder='Pills per day' />
-    <label>Pills in storage:</label>
-    <input ref:store type='number' placeholder='Pills in Store' />
+      <label>Med Name:</label>
+      {{#if errors.name}}
+        <div class='error'>Name is required</div>
+      {{/if}}
+      <input ref:name type='text' placeholder='Name' />
+      <label>Med Dosage:</label>
+      <input
+        pattern='[0-9]'
+        placeholder='Dosage'
+        ref:dosage
+        type='number'
+      />
+      <span>mg</span>
 
-    <input type='submit' value='Submit' />
-  </fieldset>
-</form>
+      <label>Pills taken each day:</label>
+      <input
+        pattern='[0-9]'
+        placeholder='Pills per day'
+        ref:daily
+        type='number'
+      />
+
+      <label>Pills in storage:</label>
+      <input
+        pattern='[0-9]'
+        placeholder='Pills in Store'
+        ref:store
+        type='number'
+      />
+
+      <input type='submit' value='Submit' />
+    </fieldset>
+  </form>
+{{/if}}
 
 <script>
   export default {
     data:
       () => ({
         errors: {},
+        addMedOn: false,
       }),
 
     methods: {
+      addMedToggle() {
+        this.set({ addMedOn: !this.get('addMedOn') })
+      },
+
       submit(event) {
         event.preventDefault()
 
@@ -45,6 +71,7 @@
           dosage: dosage.value,
           daily: daily.value,
           store: store.value,
+          remaining: Math.floor(store.value / daily.value),
         }
 
         this.fire('addMed', { med })
@@ -56,6 +83,13 @@
 </script>
 
 <style>
+  .btn {
+    position: absolute;
+    right: 5vh;
+    top: 6rem;
+    width: auto;
+  }
+
   .form {
     display: flex;
     justify-content: flex-end;

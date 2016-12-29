@@ -5,51 +5,150 @@
       <li on:click='sort("dosage")'>Dosage:</li>
       <li on:click='sort("daily")'>Per Day:</li>
       <li on:click='sort("store")'>Store:</li>
+      <li on:click='sort("remaining")'>Days Remaining</li>
+      <li>Edit:</li>
       <li>Delete:</li>
     </ul>
   </lh>
-  {{#each meds as med}}
-    <li class='list__item'>
-      <ul>
-        <li>{{ med.name }}</li>
-        <li>{{ med.dosage}}mg</li>
-        <li>{{ med.daily }}</li>
-        <li>{{ med.store }}</li>
-        <li>
-          <button class='delete' on:click='fire("removeMed", { med: med.name })'>
-            X
-          </button>
-        </li>
-      </ul>
-    </li>
+  {{#each medList as med}}
+    {{#if med}}
+      <li class='list__item'>
+        <form class='form' on:submit='save(event)'>
+          <ul>
+            {{#if editing !== med.name }}
+              <li>{{ med.name }}</li>
+              <li>{{ med.dosage}}mg</li>
+              <li>{{ med.daily }}</li>
+              <li>{{ med.store }}</li>
+              <li>{{ med.remaining }}</li>
+              <li>
+                <button
+                  class='btn'
+                  on:click='edit(med.name)'
+                  type='button'
+                >
+                  Edit
+                </button>
+              </li>
+            {{else}}
+              <li>
+                <input
+                  placeholder='Name'
+                  ref:name
+                  type='text'
+                  value={{ med.name }}
+                />
+              </li>
+              <li>
+                <input
+                  placeholder='Dosage'
+                  ref:dosage
+                  type='number'
+                  value={{ med.dosage }}
+                />
+              </li>
+              <li>
+                <input
+                  placeholder='Daily'
+                  ref:daily
+                  type='number'
+                  value={{ med.daily }}
+                />
+              </li>
+              <li>
+                <input
+                  placeholder='Pills in Store'
+                  ref:store
+                  type='number'
+                  value={{ med.store }}
+                />
+              </li>
+              <li>
+                {{ med.remaining }}
+              </li>
+
+              <li>
+                <input class='btn' type='submit' value='Save' />
+              </li>
+            {{/if}}
+
+            <li>
+              <button
+                class='btn'
+                type='button'
+                on:click='fire("removeMed", med.name)'
+              >
+                X
+              </button>
+            </li>
+          </ul>
+        </form>
+      </li>
+    {{/if}}
   {{/each}}
 </ul>
 
 <script>
-  const sortBy = localStorage.sortBy || 'name'
+  import { merge, dynamicSort } from '../utils'
 
   export default {
     data:
       () => ({
-        sortBy,
+        editing: null,
+        remaining: 0,
       }),
+
+    computed: {
+      medList: (meds, sortBy) => {
+        const medKeys = Object.keys(meds)
+        const medList = Array.from(medKeys, m => meds[m])
+          .sort(dynamicSort(sortBy))
+
+        return medList
+      },
+    },
 
     methods: {
       sort(property) {
-          console.log('sort', { property })
-          const sortBy = this.get('sortBy')
-          if (sortBy === 'prop') {
-            if (sortBy[0] === '-') {
-              property = property.substr(1)
-            } else {
-              property = '-' + property
-            }
+        const sortBy = this.get('sortBy')
+        if (sortBy === property) {
+          if (sortBy[0] === '-') {
+            property = property.substr(1)
+          } else {
+            property = '-' + property
           }
-
-          this.set('sortBy', property)
-          localStorage.sortBy = property
         }
-    }
+
+        this.fire('updateState', { meds: { sortBy: property } })
+      },
+
+      calculateRemaining(field) {
+        const { store, daily } = this.refs
+
+        this.set({ remaining: Math.floor(store.value / daily.value) })
+      },
+
+      save(event) {
+        event.preventDefault()
+
+        const { name, dosage, daily, store } = this.refs
+
+        const med = {
+          name: name.value,
+          dosage: dosage.value,
+          daily: daily.value,
+          store: store.value,
+          remaining: Math.floor(store.value / daily.value),
+        }
+
+        this.fire('addMed', { med })
+        this.set({ editing: null })
+      },
+
+      edit(name) {
+        this.set({ editing: name })
+      },
+    },
   }
 </script>
 
@@ -61,6 +160,14 @@
 
   .list__item {
     display: flex;
+  }
+
+  .form {
+    width: 100%;
+  }
+
+  .form input {
+    padding: .5rem;
   }
 
   .list ul {
