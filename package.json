@@ -9,7 +9,7 @@
     "bundle": "NODE_ENV=production webpack --config config/webpack.config.js && npm run zip",
     "clean": "rm -r bundle",
     "zip": "rm public/*.gz && zopfli public/*",
-    "server": "NODE_ENV=production node server"
+    "server": "npm run bundle && NODE_ENV=production node server"
   },
   "license": "AGPL-v3",
   "devDependencies": {
