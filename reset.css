@@ -130,8 +130,8 @@ form label {
   width: 100%;
 }
 
-form input,
-form textarea {
+input,
+textarea {
   border-color: rgb(255, 152, 0);
   border-radius: .5rem;
   border-style: outset;
@@ -142,7 +142,7 @@ form textarea {
   width: 100%;
 }
 
-form textarea {
+textarea {
   max-width: 100%;
 }
 
