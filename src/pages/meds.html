@@ -1,8 +1,10 @@
 <section>
-  <header class='header'>
+  <header>
     <h1>Meds:</h1>
   </header>
+
   <AddMedForm on:addMed='addMed(event)' />
+
   <Meds
     meds='{{ meds }}'
     med='{{ med }}'
@@ -47,13 +49,3 @@
     },
   }
 </script>
-
-<style>
-  .header {
-    display: flex;
-    justify-content: space-between;
-  }
-  .header button {
-    width: auto;
-  }
-</style>
