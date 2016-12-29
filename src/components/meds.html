@@ -1,13 +1,53 @@
+{{#if !medList || !medList.length}}
+  <div>
+    <p>No Meds added yet.</p>
+
+    <p>
+      Medications you enter will be saved in the localstorage of your device.
+    </p>
+    <p>
+      NO data gets stored on any servers.
+      Which also means that your data is lost if you lose the device.
+      See the about page for more info.
+    </p>
+  </div>
+{{else}}
 <ul class='list'>
   <lh>
     <ul>
-      <li on:click='sort("name")'>Name:</li>
-      <li on:click='sort("dosage")'>Dosage:</li>
-      <li on:click='sort("daily")'>Per Day:</li>
-      <li on:click='sort("store")'>Store:</li>
-      <li on:click='sort("remaining")'>Days Remaining</li>
-      <li>Edit:</li>
-      <li>Delete:</li>
+      <ListHeader
+        on:sort='sort(event)'
+        sortBy={{ sortBy }}
+        text='Name:'
+        value='name'
+      />
+      <ListHeader
+        on:sort='sort(event)'
+        sortBy={{ sortBy }}
+        text='Dosage:'
+        value='dosage'
+      />
+
+      <ListHeader
+        on:sort='sort(event)'
+        sortBy={{ sortBy }}
+        text='Per Day:'
+        value='daily'
+      />
+      <ListHeader
+        on:sort='sort(event)'
+        sortBy={{ sortBy }}
+        text='Store:'
+        value='store'
+      />
+      <ListHeader
+        on:sort='sort(event)'
+        sortBy={{ sortBy }}
+        text='Remaining:'
+        value='remaining'
+      />
+      <li></li>
+      <li></li>
     </ul>
   </lh>
   {{#each medList as med}}
@@ -20,7 +60,9 @@
               <li>{{ med.dosage}}mg</li>
               <li>{{ med.daily }}</li>
               <li>{{ med.store }}</li>
-              <li>{{ med.remaining }}</li>
+              <li class='{{ med.remaining < 8 ? "red" : "" }}'>
+                {{ med.remaining }}
+              </li>
               <li>
                 <button
                   class='btn'
@@ -87,8 +129,10 @@
     {{/if}}
   {{/each}}
 </ul>
+{{/if}}
 
 <script>
+  import ListHeader from './list-header'
   import { merge, dynamicSort } from '../utils'
 
   export default {
@@ -149,6 +193,9 @@
         this.set({ editing: name })
       },
     },
+    components: {
+      ListHeader,
+    }
   }
 </script>
 
@@ -178,6 +225,10 @@
   }
   .list button {
     padding: .5rem;
+  }
+
+  .red {
+    color: #ff0000;
   }
 
   .delete {
