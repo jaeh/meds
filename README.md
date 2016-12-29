@@ -1,7 +1,6 @@
 Meds
 ======
 
-
 You can use this app to manage the medication of yourself or another person.
 
 Just input the Medications you regularly need
