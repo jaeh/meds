@@ -11,18 +11,20 @@
 </div>
 
 <script>
+  import { merge } from '../utils'
+
   const init =
     (data) => {
       try {
         const { state } = window.localStorage
+        if (!state) {
+          return data
+        }
 
-        const storageState = JSON.parse(state)
+        const storedState = JSON.parse(state)
+        const mergedState = merge(data, storedState)
 
-        const mergedState = Object.assign(
-          {},
-          data,
-          storageState,
-        )
+        window.localStorage.state = mergedState
         return mergedState
       }
       catch(e) {
