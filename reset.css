@@ -60,6 +60,10 @@ body {
   padding: 0;
 }
 
+p {
+  margin: 1rem 0;
+}
+
 /* LINK STYLES */
 a {
   color: rgb(255, 152, 0);
