@@ -1,0 +1,31 @@
+<li class='box' on:click='fire("sort", value)'>
+  {{ text }}
+  {{#if sortBy.replace('-', '') === value}}
+    <div class='icon{{ sortBy[0] === "-" ? "" : " reverse" }}'>
+      <svg viewBox="0 0 512 512">
+        <path
+          d="M0 256c0 141.385 114.615 256 256 256s256-114.615 256-256S397.385 0 256 0 0 114.615 0 256zm464 0c0 114.875-93.125 208-208 208S48 370.875 48 256 141.125 48 256 48s208 93.125 208 208z"
+        />
+        <path
+          d="M353.372 334.628l45.256-45.256L256 146.745 113.373 289.373l45.254 45.254L256 237.255z"
+        />
+      </svg>
+    </div>
+  {{/if}}
+</li>
+
+<script>
+</script>
+
+<style>
+  .box {
+    display: flex;
+  }
+  .icon {
+    height: 1em;
+    width: 1em;
+  }
+  .reverse {
+    transform: rotate(180deg)
+  }
+</style>

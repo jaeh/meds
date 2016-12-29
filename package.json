@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon --watch config --watch server server",
+    "start": "npm run clean && nodemon --watch config --watch server server",
     "bundle": "npm run clean && NODE_ENV=production webpack --config config/webpack.config.js && npm run zip",
     "clean": "rm -rf public/js public/*.gz public/**/*.gz",
     "zip": "rm -f public/*.gz public/**/*.gz && zopfli public/*.* public/**/*.*",

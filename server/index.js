@@ -24,8 +24,12 @@ if (env !== 'production') {
 
 app.use('/meds', express.static(PUBLIC_DIR))
 
-app.use('*', (req, res) => {
+app.use('/meds/*', (req, res) => {
   res.sendFile(INDEX_FILE)
+})
+
+app.use('*', (req, res) => {
+  res.redirect('/meds')
 })
 
 app.listen(
