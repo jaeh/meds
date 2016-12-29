@@ -74,6 +74,7 @@
           remaining: Math.floor(store.value / daily.value),
         }
 
+        this.set({ addMedOn: false })
         this.fire('addMed', { med })
 
         return false
