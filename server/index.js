@@ -22,7 +22,7 @@ if (env !== 'production') {
   app.use(hotMiddleware)
 }
 
-app.use(express.static(PUBLIC_DIR))
+app.use('/meds', express.static(PUBLIC_DIR))
 
 app.use('*', (req, res) => {
   res.sendFile(INDEX_FILE)
