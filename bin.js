@@ -23,7 +23,7 @@ const publish =
     .then(
       (id) =>
         new Promise((resolve, reject) => {
-          let cmd2 = `git push origin ${ id.trim() }:gh-pages --force`
+          let cmd2 = `git push origin ${ id.trim() }:gh-pages`
 
           console.log('exec', cmd2)
           exec(cmd2, (err, res) => {
