@@ -10,7 +10,7 @@
     "clean": "rm -rf public/js public/*.gz public/**/*.gz",
     "zip": "rm -f public/*.gz public/**/*.gz && zopfli public/*.* public/**/*.*",
     "server": "npm run bundle && NODE_ENV=production node server",
-    "publish": "npm run bundle && git subtree push --prefix public origin gh-pages"
+    "publish": "npm run bundle && ./bin.js"
   },
   "license": "AGPL-v3",
   "devDependencies": {
