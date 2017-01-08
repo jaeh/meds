@@ -5,7 +5,7 @@ module.exports = {
   quiet: false,
   // display nothing to the console
 
-  lazy: true,
+  // lazy: true,
   // switch into lazy mode
   // that means no watching, but recompilation on every request
 
@@ -15,7 +15,7 @@ module.exports = {
   // },
   // watch options (only lazy: false)
 
-  publicPath: '/meds/js/',
+  publicPath: '/meds/',
   // public path to bind the middleware to
   // use the same as in webpack
 
