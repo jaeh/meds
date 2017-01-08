@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const serveFavicon = require('serve-favicon')
 
 const app = express()
 
@@ -21,6 +22,8 @@ if (env !== 'production') {
   app.use(devMiddleware)
   app.use(hotMiddleware)
 }
+
+app.use(serveFavicon(path.join(PUBLIC_DIR, 'favicon.ico')))
 
 app.use('/meds', express.static(PUBLIC_DIR))
 
