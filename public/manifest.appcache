@@ -1,4 +1,3 @@
 CACHE MANIFEST
-meds/
-reset.css
-index.js
+/meds/js/index.js
+/meds/reset.css
